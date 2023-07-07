@@ -20,6 +20,10 @@ export interface genericPokemonType {
 
 En este bloque de código se definen tres interfaces: AppTypeInitialState, PokemonTypeInitialState y genericPokemonType. Estas interfaces permiten definir la estructura y el tipo de datos utilizados en otros bloques de código. 
 °Este bloque de código define las interfaces AppTypeInitialState, PokemonTypeInitialState y genericPokemonType, que representan la estructura de datos utilizada en la aplicación.
+En este bloque de código se definen tres interfaces: AppTypeInitialState, PokemonTypeInitialState y genericPokemonType.
+La interfaz AppTypeInitialState no tiene propiedades definidas.
+La interfaz PokemonTypeInitialState tiene una propiedad llamada allPokemon, que puede ser undefined o un arreglo de genericPokemonType.
+La interfaz genericPokemonType define las propiedades name y url como cadenas de texto.
 
 Glosario de términos:
 
@@ -32,29 +36,37 @@ A continuación, se presenta un glosario de términos utilizados en este bloque:
 
 ```typescript
 
-import { createSlice } from "@reduxjs/toolkit";
-import { PokemonTypeInitialState } from "../../utils/Types";
-import { getInitialPokeData } from "../reducers/getInitialPokeData";
+import React, { useEffect } from 'react';
+import Wrapper from '../sections/Wrapper';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { getInitialPokeData } from '../app/reducers/getInitialPokeData';
+import { getPokeData } from '../app/reducers/getPokeData';
 
-const initialState: PokemonTypeInitialState = {
-    allPokemon: undefined,
-};
+function Search() {
+    const dispatch = useAppDispatch();
+    const {allPokemon} = useAppSelector(({pokemon})=>pokemon)
+    useEffect (()=> {
+        dispatch(getInitialPokeData());
+    }, [dispatch]);
+    useEffect (()=>{
+        if(allPokemon) {
+            const clonedPokemons = [...allPokemon];
+            const randomPokemonsId = clonedPokemons
+                .sort(()=> Math.random() - Math.random())
+                .slice(0, 20);
+            console.log(randomPokemonsId);
+            dispatch(getPokeData(randomPokemonsId));
+        }
 
-export const PokemonSlice = createSlice({
-    name: "pokemon",
-    initialState,
-    reducers: {},
-    extraReducers: (builder) => {
-        builder.addCase(getInitialPokeData.fulfilled, (state, action) => {
-            state.allPokemon = action.payload;
-        });
-    },
-});
+    },[allPokemon, dispatch]);
+    return (
+        <div></div>
+    );
+}
 
-export const {} = PokemonSlice.actions;
+export default Wrapper(Search);
 ```
 
-En este bloque de código se define el slice PokemonSlice utilizando la función createSlice de Redux Toolkit. Este slice representa la parte del estado relacionada con los Pokémon. 
 °    Este bloque de código define la función Search, que es un componente de React. La acción que se realiza al ejecutarse es:
 
     useEffect (1ª ejecución):
@@ -72,13 +84,6 @@ En este bloque de código se define el slice PokemonSlice utilizando la función
             Se seleccionan los primeros 20 pokémon mediante el método slice(0, 20).
             Se muestra por consola randomPokemonsId.
             Se realiza la acción dispatch(getPokeData(randomPokemonsId)), que invoca la función asíncrona getPokeData.
-
-A continuación, se presenta un glosario de términos utilizados en este bloque:
-    Slice: En Redux, un slice es una porción del estado de la aplicación. Representa un conjunto específico de datos y las acciones relacionadas con esos datos. En este caso, el slice PokemonSlice representa el estado y las acciones relacionadas con los Pokémon.
-    Redux Toolkit: Redux Toolkit es una biblioteca oficial de Redux que proporciona una API simplificada para trabajar con Redux. Incluye funciones y utilidades para definir slices, acciones asíncronas y configurar la tienda de Redux de manera más sencilla.
-    Reducer: Un reducer es una función que especifica cómo se actualiza el estado de la aplicación en respuesta a una acción. En este bloque, el reducer se define utilizando el método createSlice y se pasa como parte de la configuración de PokemonSlice.
-    Action: En Redux, una acción es un objeto que describe un cambio en el estado de la aplicación. Puede contener datos adicionales que se utilizan para actualizar el estado. En este caso, la acción utilizada es getInitialPokeData.fulfilled, que se dispara cuando la acción asíncrona getInitialPokeData se completa exitosamente.
-    Extra Reducers: En Redux Toolkit, los extra reducers son bloques de código que se ejecutan en respuesta a acciones específicas. En este caso, se utiliza el método addCase para definir un extra reducer que se ejecutará cuando la acción getInitialPokeData.fulfilled ocurra. En este extra reducer, se actualiza el estado allPokemon con los datos obtenidos de la acción.
 
     Bloque de código 2:
 
@@ -119,55 +124,49 @@ Glosario de términos:
 
 
 A continuación, se presenta un glosario de términos utilizados en este bloque:
-    Store: En Redux, la tienda (store) es el objeto central que contiene el estado de la aplicación. La tienda es responsable de recibir las acciones, invocar los reducers correspondientes y actualizar el estado en consecuencia. En este bloque, la tienda se configura utilizando configureStore.
-    Reducer: Un reducer es una función que especifica cómo se actualiza el estado de la aplicación en respuesta a una acción. En este bloque, se importan los reducers AppSlice.reducer y PokemonSlice.reducer desde los archivos correspondientes y se los asigna a las propiedades app y pokemon del objeto reducer en la configuración de la tienda.
-    Dispatch: En Redux, dispatch es una función utilizada para enviar acciones a la tienda. Permite que las acciones se procesen y actualicen el estado de la aplicación. En este bloque, se define el tipo AppDispatch, que representa el tipo de la función dispatch de la tienda.
-    RootState: El RootState es el tipo de dato que representa el estado raíz de la aplicación. En este bloque, se define el tipo RootState como el tipo de retorno de la función store.getState(), que proporciona el estado actual de la tienda.
-    ThunkAction: ThunkAction es un tipo de dato utilizado en Redux para representar acciones asíncronas. Define los tipos de retorno, el tipo del estado raíz y el tipo de argumentos adicionales utilizados por las acciones asíncronas. En este bloque, se define el tipo AppThunk utilizando ThunkAction.
+Store: En Redux, la tienda (store) es el objeto central que contiene el estado de la aplicación. La tienda es responsable de recibir las acciones, invocar los reducers correspondientes y actualizar el estado en consecuencia. En este bloque, la tienda se configura utilizando configureStore.
+Reducer: Un reducer es una función que especifica cómo se actualiza el estado de la aplicación en respuesta a una acción. En este bloque, se importan los reducers AppSlice.reducer y PokemonSlice.reducer desde los archivos correspondientes y se los asigna a las propiedades app y pokemon del objeto reducer en la configuración de la tienda.
+Dispatch: En Redux, dispatch es una función utilizada para enviar acciones a la tienda. Permite que las acciones se procesen y actualicen el estado de la aplicación. En este bloque, se define el tipo AppDispatch, que representa el tipo de la función dispatch de la tienda.
+RootState: El RootState es el tipo de dato que representa el estado raíz de la aplicación. En este bloque, se define el tipo RootState como el tipo de retorno de la función store.getState(), que proporciona el estado actual de la tienda.
+ThunkAction: ThunkAction es un tipo de dato utilizado en Redux para representar acciones asíncronas. Define los tipos de retorno, el tipo del estado raíz y el tipo de argumentos adicionales utilizados por las acciones asíncronas. En este bloque, se define el tipo AppThunk utilizando ThunkAction.
 
-    Bloque de código 6:
+     Bloque de código 6:
 
 ```typescript
 
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { PokemonTypeInitialState } from "../../utils/Types";
-import { getInitialPokeData } from "../reducers/getInitialPokeData";
+import { genericPokemonType } from "../../utils/Types";
 
-const initialState: PokemonTypeInitialState = {
-    allPokemon: undefined,
-};
-
-export const PokemonSlice = createSlice({
-    name: "pokemon",
-    initialState,
-    reducers: {},
-    extraReducers: (builder) => {
-        builder.addCase(getInitialPokeData.fulfilled, (state, action) => {
-            state.allPokemon = action.payload;
-        });
-    },
-});
-
-export const {} = PokemonSlice.actions;
+export const getPokeData = createAsyncThunk("pokemon/randomPokemon",
+    async (pokemons: genericPokemonType[]) => {
+        try{
+            console.log({pokemons},"from reducer");
+        }catch(err){}
+    }
 ```
 
-Este bloque de código define la acción asíncrona getInitialPokeData utilizando createAsyncThunk y actualiza el estado allPokemon dentro del slice PokemonSlice en respuesta a laContinuación del bloque de código 6:acción asíncrona getInitialPokeData.fulfilled. 
 
 °Este bloque de código define la acción asíncrona getPokeData utilizando createAsyncThunk. En este bloque en particular, no se ejecuta ninguna acción específica. Solo se muestra un mensaje en la consola, pero esto se considera un efecto secundario y no tiene un impacto directo en el flujo de ejecución.
 °Este bloque de código importa la función createSlice, la acción getInitialPokeData y el tipo PokemonTypeInitialState. Luego, se define el estado inicial initialState con la propiedad allPokemon como undefined. A continuación, se crea el slice PokemonSlice utilizando createSlice, se define un extra reducer que se ejecuta cuando la acción getInitialPokeData.fulfilled ocurre y se exportan las acciones del slice.
 
+    Este bloque de código define la acción asíncrona getPokeData utilizando createAsyncThunk.
+    No se realiza ninguna acción dentro de la función getPokeData en este bloque en particular. 
+    Solo se imprime un mensaje en la consola.
+    Este bloque de código define la acción asíncrona getPokeData utilizando createAsyncThunk. 
+    En este bloque en particular, no se ejecuta ninguna acción específica. Solo se muestra un 
+    mensaje en la consola, pero esto se considera un efecto secundario y     no tiene un |
+    impacto directo en el flujo de ejecución.
+    Este bloque de código define la acción asíncrona getPokeData utilizando createAsyncThunk. 
+    La acción recibe un array de genericPokemonType como parámetro y muestra por consola el array 
+    en un bloque try-catch.
+
 Glosario de términos:
 
-    createSlice: createSlice es una función de @reduxjs/toolkit que se utiliza para crear slices en Redux, que incluyen reducers y acciones relacionadas.
-    extraReducers: extraReducerses una propiedad de createSlice que permite agregar reducers adicionales a un slice. Los extra reducers se ejecutan cuando se dispara una acción específica.
+    getPokeData: getPokeData es una acción asíncrona creada utilizando createAsyncThunk que se 
+    utiliza para obtener datos aleatorios de pokémon. En este caso, la acción muestra por consola 
+    el array de pokémons recibidos como parámetro.
 
-A continuación, se presenta un glosario de términos utilizados en este bloque:
-
-    Async Thunk: Un thunk asíncrono es una función que encapsula una operación asíncrona y se utiliza en Redux para manejar acciones asíncronas. En este bloque, se utiliza createAsyncThunk para crear la acción asíncrona getInitialPokeData.
-    Fulfilled: En Redux Toolkit, fulfilled es un tipo de acción que se dispara cuando una acción asíncrona se completa exitosamente. En este bloque, se utiliza addCase para definir un extra reducer que se ejecuta cuando la acción getInitialPokeData.fulfilled ocurre.
-    Extra Reducers: En Redux Toolkit, los extra reducers son bloques de código que se ejecutan en respuesta a acciones específicas. En este caso, se utiliza addCase para definir un extra reducer que actualiza el estado allPokemon dentro del slice PokemonSlice con los datos obtenidos de la acción.
-
-Bloque de código 4:
+    Bloque de código 4:
 
 ```typescript
 
@@ -203,12 +202,30 @@ A continuación, se utiliza la función createSlice para crear un slice llamado 
 Finalmente, se exporta el slice PokemonSlice y se exportan las acciones (aunque en este caso no hay acciones definidas).
 
 °Este bloque de código define el slice de Redux PokemonSlice utilizando createSlice. No se ejecuta ninguna acción directa en este bloque. Solo se define el slice y se agrega un caso adicional en extraReducers.
+
+°Este bloque de código define la acción asíncrona getInitialPokeData utilizando createAsyncThunk y actualiza el estado allPokemon dentro del slice PokemonSlice en respuesta a laContinuación del bloque de código 6:acción asíncrona getInitialPokeData.fulfilled. 
 °Este bloque de código importa la función createSlice, la acción getInitialPokeData y el tipo PokemonTypeInitialState. Luego, se define el estado inicial initialState con la propiedad allPokemon como undefined. A continuación, se crea el slice PokemonSlice utilizando createSlice, se define un extra reducer que se ejecuta cuando la acción getInitialPokeData.fulfilled ocurre y se exportan las acciones del slice.
 
 Glosario de términos:
 
     createSlice: createSlice es una función de @reduxjs/toolkit que se utiliza para crear slices en Redux, que incluyen reducers y acciones relacionadas.
     extraReducers: extraReducerses una propiedad de createSlice que permite agregar reducers adicionales a un slice. Los extra reducers se ejecutan cuando se dispara una acción específica.
+~~A continuación, se presenta un glosario de términos utilizados en este bloque:
+    Slice: En Redux, un slice es una porción del estado de la aplicación. Representa un conjunto específico de datos y las acciones relacionadas con esos datos. En este caso, el slice PokemonSlice representa el estado y las acciones relacionadas con los Pokémon.
+    Redux Toolkit: Redux Toolkit es una biblioteca oficial de Redux que proporciona una API simplificada para trabajar con Redux. Incluye funciones y utilidades para definir slices, acciones asíncronas y configurar la tienda de Redux de manera más sencilla.
+    Reducer: Un reducer es una función que especifica cómo se actualiza el estado de la aplicación en respuesta a una acción. En este bloque, el reducer se define utilizando el método createSlice y se pasa como parte de la configuración de PokemonSlice.
+    Action: En Redux, una acción es un objeto que describe un cambio en el estado de la aplicación. Puede contener datos adicionales que se utilizan para actualizar el estado. En este caso, la acción utilizada es getInitialPokeData.fulfilled, que se dispara cuando la acción asíncrona getInitialPokeData se completa exitosamente.
+    Extra Reducers: En Redux Toolkit, los extra reducers son bloques de código que se ejecutan en respuesta a acciones específicas. En este caso, se utiliza el método addCase para definir un extra reducer que se ejecutará cuando la acción getInitialPokeData.fulfilled ocurra. En este extra reducer, se actualiza el estado allPokemon con los datos obtenidos de la acción.
+~~A continuación, se presenta un glosario de términos utilizados en este bloque:
+Glosario de términos:
+
+    createSlice: createSlice es una función de @reduxjs/toolkit que se utiliza para crear slices en Redux, que incluyen reducers y acciones relacionadas.
+    extraReducers: extraReducerses una propiedad de createSlice que permite agregar reducers adicionales a un slice. Los extra reducers se ejecutan cuando se dispara una acción específica.
+    Async Thunk: Un thunk asíncrono es una función que encapsula una operación asíncrona y se utiliza en Redux para manejar acciones asíncronas. En este bloque, se utiliza createAsyncThunk para crear la acción asíncrona getInitialPokeData.
+    Fulfilled: En Redux Toolkit, fulfilled es un tipo de acción que se dispara cuando una acción asíncrona se completa exitosamente. En este bloque, se utiliza addCase para definir un extra reducer que se ejecuta cuando la acción getInitialPokeData.fulfilled ocurre.
+    Extra Reducers: En Redux Toolkit, los extra reducers son bloques de código que se ejecutan en respuesta a acciones específicas. En este caso, se utiliza addCase para definir un extra reducer que actualiza el estado allPokemon dentro del slice PokemonSlice con los datos obtenidos de la acción.
+
+
 
     Bloque de código 5:
 
@@ -246,9 +263,9 @@ Glosario de términos:
     try-catch: try-catch es una estructura utilizada para capturar errores en JavaScript. En este caso, se utiliza para capturar cualquier error que ocurra durante la solicitud HTTP y se muestra en la consola.
 
 A continuación, se presenta un glosario de términos utilizados en este bloque:
-    Axios: Axios es una biblioteca popular de JavaScript utilizada para realizar solicitudes HTTP desde el navegador o desde Node.js. En este bloque, se utiliza axios.get para realizar una solicitud HTTP GET a la ruta pokemonsRoute.
-    Async Thunk: Un thunk asíncrono es una función que encapsula una operación asíncrona y se utiliza en Redux para manejar acciones asíncronas. En este bloque, se utiliza createAsyncThunk para crear la acción asíncrona getInitialPokeData.
-    try-catch: El bloque try-catch es una estructura utilizada para capturar errores en JavaScript. En este bloque, se utiliza para capturar cualquier error que ocurra durante la solicitud HTTP y se muestra en la consola.
+ Axios: Axios es una biblioteca popular de JavaScript utilizada para realizar solicitudes HTTP desde el navegador o desde Node.js. En este bloque, se utiliza axios.get para realizar una solicitud HTTP GET a la ruta pokemonsRoute.
+Async Thunk: Un thunk asíncrono es una función que encapsula una operación asíncrona y se utiliza en Redux para manejar acciones asíncronas. En este bloque, se utiliza createAsyncThunk para crear la acción asíncrona getInitialPokeData.
+try-catch: El bloque try-catch es una estructura utilizada para capturar errores en JavaScript. En este bloque, se utiliza para capturar cualquier error que ocurra durante la solicitud HTTP y se muestra en la consola.
 
     Bloque de código 1:
 
@@ -267,9 +284,10 @@ En este bloque de código se importan funciones y tipos de react-redux para su u
 °Este bloque de código importa funciones y tipos de react-redux. No realiza ninguna acción en sí mismo, solo importa las utilidades necesarias para su uso posterior.
 
 A continuación, se presenta un glosario de términos utilizados en este bloque:
-    useDispatch: useDispatch es un hook de react-redux que se utiliza para obtener una instancia de la función dispatch de Redux en un componente de React. En este bloque, se utiliza para definir la función useAppDispatch, que devuelve una instancia tipada de useDispatch.
-    useSelector: useSelector es un hook de react-redux que se utiliza para seleccionar una porción del estado de Redux en un componente de React. En este bloque, se utiliza para definir la función useAppSelector, que es una instancia tipada de useSelector que utiliza RootState.
-    RootState: El RootState es el tipo de dato que representa el estado raíz de la aplicación. En este bloque, se importa el tipo RootState desde el archivo store y se utiliza en useAppSelector para proporcionar un tipado específico al selector.
+useDispatch: useDispatch es un hook de react-redux que se utiliza para obtener una instancia de la función dispatch de Redux en un componente de React. En este bloque, se utiliza para definir la función useAppDispatch, que devuelve una instancia tipada de useDispatch.
+
+ useSelector: useSelector es un hook de react-redux que se utiliza para seleccionar una porción del estado de Redux en un componente de React. En este bloque, se utiliza para definir la función useAppSelector, que es una instancia tipada de useSelector que utiliza RootState.
+RootState: El RootState es el tipo de dato que representa el estado raíz de la aplicación. En este bloque, se importa el tipo RootState desde el archivo store y se utiliza en useAppSelector para proporcionar un tipado específico al selector.
 
 °Este bloque de código importa las funciones TypedUseSelectorHook, useDispatch y useSelector de react-redux y los tipos RootState y AppDispatch del archivo ./store. Luego, define las funciones useAppDispatch y useAppSelector que se utilizan en toda la aplicación. Estas funciones están diseñadas para trabajar con los tipos de datos AppDispatch y RootState.
 

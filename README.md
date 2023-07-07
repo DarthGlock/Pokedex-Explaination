@@ -29,8 +29,9 @@ Glosario de términos:
 
     Interface: En TypeScript, una interfaz es una forma de definir la estructura de un objeto. Permite definir los nombres de las propiedades y los tipos de datos que deben tener.
 
-A continuación, se presenta un glosario de términos utilizados en este bloque:
-    Interface: En TypeScript, una interfaz es una forma de definir la estructura de un objeto. Permite definir los nombres de las propiedades y los tipos de datos que deben tener. En este caso, se definen interfaces para representar el estado inicial de la aplicación (AppTypeInitialState y PokemonTypeInitialState) y el tipo de objeto utilizado para representar un Pokémon (genericPokemonType).
+~~A continuación, se presenta un glosario de términos utilizados en este bloque:
+
+Interface: En TypeScript, una interfaz es una forma de definir la estructura de un objeto. Permite definir los nombres de las propiedades y los tipos de datos que deben tener. En este caso, se definen interfaces para representar el estado inicial de la aplicación (AppTypeInitialState y PokemonTypeInitialState) y el tipo de objeto utilizado para representar un Pokémon (genericPokemonType).
 
     Bloque de código 7:
 
@@ -123,11 +124,16 @@ Glosario de términos:
     PokemonSlice: PokemonSlice es un slice de Redux que contiene los reducers y las acciones relacionadas con los pokemones.
 
 
-A continuación, se presenta un glosario de términos utilizados en este bloque:
+~~A continuación, se presenta un glosario de términos utilizados en este bloque:
+
 Store: En Redux, la tienda (store) es el objeto central que contiene el estado de la aplicación. La tienda es responsable de recibir las acciones, invocar los reducers correspondientes y actualizar el estado en consecuencia. En este bloque, la tienda se configura utilizando configureStore.
+
 Reducer: Un reducer es una función que especifica cómo se actualiza el estado de la aplicación en respuesta a una acción. En este bloque, se importan los reducers AppSlice.reducer y PokemonSlice.reducer desde los archivos correspondientes y se los asigna a las propiedades app y pokemon del objeto reducer en la configuración de la tienda.
+
 Dispatch: En Redux, dispatch es una función utilizada para enviar acciones a la tienda. Permite que las acciones se procesen y actualicen el estado de la aplicación. En este bloque, se define el tipo AppDispatch, que representa el tipo de la función dispatch de la tienda.
+
 RootState: El RootState es el tipo de dato que representa el estado raíz de la aplicación. En este bloque, se define el tipo RootState como el tipo de retorno de la función store.getState(), que proporciona el estado actual de la tienda.
+
 ThunkAction: ThunkAction es un tipo de dato utilizado en Redux para representar acciones asíncronas. Define los tipos de retorno, el tipo del estado raíz y el tipo de argumentos adicionales utilizados por las acciones asíncronas. En este bloque, se define el tipo AppThunk utilizando ThunkAction.
 
      Bloque de código 6:
@@ -211,11 +217,17 @@ Glosario de términos:
     createSlice: createSlice es una función de @reduxjs/toolkit que se utiliza para crear slices en Redux, que incluyen reducers y acciones relacionadas.
     extraReducers: extraReducerses una propiedad de createSlice que permite agregar reducers adicionales a un slice. Los extra reducers se ejecutan cuando se dispara una acción específica.
 ~~A continuación, se presenta un glosario de términos utilizados en este bloque:
-    Slice: En Redux, un slice es una porción del estado de la aplicación. Representa un conjunto específico de datos y las acciones relacionadas con esos datos. En este caso, el slice PokemonSlice representa el estado y las acciones relacionadas con los Pokémon.
-    Redux Toolkit: Redux Toolkit es una biblioteca oficial de Redux que proporciona una API simplificada para trabajar con Redux. Incluye funciones y utilidades para definir slices, acciones asíncronas y configurar la tienda de Redux de manera más sencilla.
-    Reducer: Un reducer es una función que especifica cómo se actualiza el estado de la aplicación en respuesta a una acción. En este bloque, el reducer se define utilizando el método createSlice y se pasa como parte de la configuración de PokemonSlice.
-    Action: En Redux, una acción es un objeto que describe un cambio en el estado de la aplicación. Puede contener datos adicionales que se utilizan para actualizar el estado. En este caso, la acción utilizada es getInitialPokeData.fulfilled, que se dispara cuando la acción asíncrona getInitialPokeData se completa exitosamente.
-    Extra Reducers: En Redux Toolkit, los extra reducers son bloques de código que se ejecutan en respuesta a acciones específicas. En este caso, se utiliza el método addCase para definir un extra reducer que se ejecutará cuando la acción getInitialPokeData.fulfilled ocurra. En este extra reducer, se actualiza el estado allPokemon con los datos obtenidos de la acción.
+
+Slice: En Redux, un slice es una porción del estado de la aplicación. Representa un conjunto específico de datos y las acciones relacionadas con esos datos. En este caso, el slice PokemonSlice representa el estado y las acciones relacionadas con los Pokémon.
+   
+Redux Toolkit: Redux Toolkit es una biblioteca oficial de Redux que proporciona una API simplificada para trabajar con Redux. Incluye funciones y utilidades para definir slices, acciones asíncronas y configurar la tienda de Redux de manera más sencilla.
+
+Reducer: Un reducer es una función que especifica cómo se actualiza el estado de la aplicación en respuesta a una acción. En este bloque, el reducer se define utilizando el método createSlice y se pasa como parte de la configuración de PokemonSlice.
+
+Action: En Redux, una acción es un objeto que describe un cambio en el estado de la aplicación. Puede contener datos adicionales que se utilizan para actualizar el estado. En este caso, la acción utilizada es getInitialPokeData.fulfilled, que se dispara cuando la acción asíncrona getInitialPokeData se completa exitosamente.
+
+Extra Reducers: En Redux Toolkit, los extra reducers son bloques de código que se ejecutan en respuesta a acciones específicas. En este caso, se utiliza el método addCase para definir un extra reducer que se ejecutará cuando la acción getInitialPokeData.fulfilled ocurra. En este extra reducer, se actualiza el estado allPokemon con los datos obtenidos de la acción.
+
 ~~A continuación, se presenta un glosario de términos utilizados en este bloque:
 Glosario de términos:
 
@@ -263,8 +275,11 @@ Glosario de términos:
     try-catch: try-catch es una estructura utilizada para capturar errores en JavaScript. En este caso, se utiliza para capturar cualquier error que ocurra durante la solicitud HTTP y se muestra en la consola.
 
 A continuación, se presenta un glosario de términos utilizados en este bloque:
- Axios: Axios es una biblioteca popular de JavaScript utilizada para realizar solicitudes HTTP desde el navegador o desde Node.js. En este bloque, se utiliza axios.get para realizar una solicitud HTTP GET a la ruta pokemonsRoute.
+
+Axios: Axios es una biblioteca popular de JavaScript utilizada para realizar solicitudes HTTP desde el navegador o desde Node.js. En este bloque, se utiliza axios.get para realizar una solicitud HTTP GET a la ruta pokemonsRoute.
+
 Async Thunk: Un thunk asíncrono es una función que encapsula una operación asíncrona y se utiliza en Redux para manejar acciones asíncronas. En este bloque, se utiliza createAsyncThunk para crear la acción asíncrona getInitialPokeData.
+
 try-catch: El bloque try-catch es una estructura utilizada para capturar errores en JavaScript. En este bloque, se utiliza para capturar cualquier error que ocurra durante la solicitud HTTP y se muestra en la consola.
 
     Bloque de código 1:
